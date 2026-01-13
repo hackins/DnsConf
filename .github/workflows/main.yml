@@ -8,10 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: DNS_CLOUDFLARE
+    environment: DNS
 
     env:
-      DNS_CLOUDFLARE: ${{ vars.DNS }}
+      DNS: ${{ vars.DNS }}
       BLOCK: ${{ vars.BLOCK }}
       REDIRECT: ${{ vars.REDIRECT }}
 
