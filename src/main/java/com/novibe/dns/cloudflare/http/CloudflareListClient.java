@@ -5,7 +5,6 @@ import com.novibe.dns.cloudflare.http.dto.response.list.GatewayListDto;
 import com.novibe.dns.cloudflare.http.dto.response.list.MultiListApiResponse;
 import com.novibe.dns.cloudflare.http.dto.response.list.SingleListApiResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
@@ -20,22 +19,19 @@ public class CloudflareListClient {
 
     private static final String path = "/lists";
 
-    private final RequestCloudflare requestCloudflare;
+    private final AbstractCloudflareApiClient abstractCloudflareApiClient;
 
-    @SneakyThrows
     public List<GatewayListDto> getLists() {
-        List<GatewayListDto> lists = requestCloudflare.get(path, MultiListApiResponse.class).getResult();
+        List<GatewayListDto> lists = abstractCloudflareApiClient.get(path, MultiListApiResponse.class).getResult();
         return Objects.requireNonNullElse(lists, List.of());
     }
 
-    @SneakyThrows
     public SingleListApiResponse postList(CreateListRequest createListRequest) {
-        return requestCloudflare.post(path, createListRequest, SingleListApiResponse.class);
+        return abstractCloudflareApiClient.post(path, createListRequest, SingleListApiResponse.class);
     }
 
-    @SneakyThrows
     public SingleListApiResponse deleteListById(UUID listId) {
-        return requestCloudflare.delete(path + "/" + listId, SingleListApiResponse.class);
+        return abstractCloudflareApiClient.delete(path + "/" + listId, SingleListApiResponse.class);
     }
 
 }
